@@ -59,6 +59,7 @@ $ git clone git@github.com:decosoftware/deco-ide
 ```
 Install all dependencies with `setup.js` script:
 ```
+$ cd ./deco-ide
 $ ./setup.js
 ```
 ...or one-by-one:
