@@ -56,6 +56,13 @@ Windows is not supported at this time.
 ### Clone and Install Dependencies
 ```
 $ git clone git@github.com:decosoftware/deco-ide
+```
+Install all dependencies with `setup.js` script:
+```
+$ ./setup.js
+```
+...or one-by-one:
+```
 $ cd ./deco-ide/web
 $ npm install
 $ bundle install
