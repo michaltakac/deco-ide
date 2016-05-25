@@ -17,41 +17,46 @@
  */
 
 var path = require('path')
-var exec = require('child_process').exec
+var setupProcess = require('child_process')
 
 var web     = path.join(__dirname, './web')
 var desktop = path.join(__dirname, './desktop')
 var shared  = path.join(__dirname, './shared')
 
-var onExit = function(child) {
-  if (child && !child.killed) {
-    child.stdout.on('data', function(data) {
-      console.log(data);
-    });
-    child.stderr.on('data', function(data) {
-      console.log(data);
-    });
-    child.on('close', function(code) {
-      console.log('closing code: ' + code);
-    });
-    child.kill() 
-  }
-}
-
 // Web
-var child = exec('npm install', { cwd: web })
-process.on('exit', onExit.bind(this, child))
+setupProcess.spawn('npm', ['install'], { cwd: web, stdio: 'inherit' })
+  .on('exit', function (error) {
+    if(!error){
+      console.log('> /web > node_modules install completed.');
+    }
+  })
 
-var child = exec('bundle install', { cwd: web })
-process.on('exit', onExit.bind(this, child))
+setupProcess.spawn('bundle', ['install'], { cwd: web, stdio: 'inherit' })
+  .on('exit', function (error) {
+    if(!error){
+      console.log('Web bundle created successfully!');
+    }
+  })
 
 // Desktop
-var child = exec('npm install', { cwd: desktop })
-process.on('exit', onExit.bind(this, child))
+setupProcess.spawn('npm', ['install'], { cwd: desktop, stdio: 'inherit' })
+  .on('exit', function (error) {
+    if(!error){
+      console.log('> /desktop > node_modules install completed.');
+    }
+  })
 
-var child = exec('npm run copy libs', { cwd: desktop })
-process.on('exit', onExit.bind(this, child))
+setupProcess.spawn('npm', ['run', 'copy-libs'], { cwd: desktop, stdio: 'inherit' })
+  .on('exit', function (error) {
+    if(!error){
+      console.log('Desktop bundle created successfully!');
+    }
+  })
 
 // Shared
-var child = exec('npm install', { cwd: shared })
-process.on('exit', onExit.bind(this, child))
+setupProcess.spawn('npm', ['install'], { cwd: shared, stdio: 'inherit' })
+  .on('exit', function (error) {
+    if(!error){
+      console.log('Shared bundle created successfully!');
+    }
+  })
